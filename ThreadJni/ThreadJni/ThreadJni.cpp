@@ -8,20 +8,19 @@
 #include <vector>
 
 #include "ThreadParameter.h"
-#include "com_oneapm_jni_ThreadJni.h"
+#include "oneapm_synthetic_agent_runner_jni_ThreadJni.h"
 
 using namespace std ;
 
 DWORD WINAPI LaunchEXE(LPVOID lpParameter) ;  //创建进程
 DWORD g_processID ;
 
-
 /*
 * Class:     com_oneapm_jni_ThreadJni
 * Method:    CreateThread
 * Signature: (Ljava/lang/String;Ljava/lang/String;)J
 */
-JNIEXPORT jlong JNICALL Java_com_oneapm_jni_ThreadJni_CreateThread
+JNIEXPORT jlong JNICALL Java_oneapm_synthetic_agent_runner_jni_ThreadJni_CreateThread
 	(JNIEnv *env, jobject object, jstring applicationName, jstring cmdLine)
 {
 	ThreadParameter *pParameter = new ThreadParameter(env->GetStringUTFChars(applicationName,0),env->GetStringUTFChars(cmdLine,0)) ;
@@ -31,6 +30,21 @@ JNIEXPORT jlong JNICALL Java_com_oneapm_jni_ThreadJni_CreateThread
 	CloseHandle(hThread1) ;
 	return g_processID ;
 }
+/*
+* Class:     com_oneapm_jni_ThreadJni
+* Method:    CreateThread
+* Signature: (Ljava/lang/String;Ljava/lang/String;)J
+*/
+//JNIEXPORT jlong JNICALL Java_com_oneapm_jni_ThreadJni_CreateThread
+//	(JNIEnv *env, jobject object, jstring applicationName, jstring cmdLine)
+//{
+//	ThreadParameter *pParameter = new ThreadParameter(env->GetStringUTFChars(applicationName,0),env->GetStringUTFChars(cmdLine,0)) ;
+//	HANDLE hThread1 = CreateThread(NULL,0,LaunchEXE,(LPVOID)pParameter,0,NULL) ;
+//
+//	Sleep(100) ;
+//	CloseHandle(hThread1) ;
+//	return g_processID ;
+//}
 
 DWORD WINAPI LaunchEXE(LPVOID lpParameter)
 {
